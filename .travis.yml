@@ -1,0 +1,29 @@
+os:
+- linux
+
+language: cpp
+
+compiler: gcc
+
+script:
+- export CXX="/usr/bin/g++-4.8"
+- $CXX --version
+- "tls-testsuite/setup.sh"
+- "tls-testsuite/server_testsuite.sh"
+
+
+addons:
+  apt:
+    sources:
+    - ubuntu-toolchain-r-test
+    packages:
+    - g++-4.8
+    - libsqlite3-dev
+    - zlib1g-dev
+    - libbz2-dev
+    - liblzma-dev
+
+notifications:
+  email:
+    recipients:
+    - daniel@neus-online.eu
