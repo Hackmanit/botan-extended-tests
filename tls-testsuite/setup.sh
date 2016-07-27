@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ -d tls-testsuite ] 
+then
+    cd tls-testsuite
+fi
+
 if [ ! -d botan ]
 then
     git clone https://github.com/randombit/botan.git
@@ -10,7 +15,10 @@ then
     git clone https://github.com/RUB-NDS/TLS-Attacker.git
 fi
 
-mkdir output
+if [ ! -d output ]
+then
+    mkdir output
+fi
 
 cd botan
 git checkout .
@@ -18,7 +26,11 @@ git pull
 patch src/cli/tls_server.cpp ../misc/tls_server.patch
 
 export ASAN_OPTIONS=check_initialization_order=true
-./configure.py --with-sanitizers --disable-shared --with-debug-info --with-bzip2 --with-lzma --with-sqlite --with-zlib --cc="$CC" --cc-bin="$CXX"
+if [ -n "$CC" ]
+   then ./configure.py --with-sanitizers --disable-shared --with-debug-info --with-bzip2 --with-lzma --with-sqlite --with-zlib --cc="$CC" --cc-bin="$CXX"
+   else ./configure.py --with-sanitizers --disable-shared --with-debug-info --with-bzip2 --with-lzma --with-sqlite --with-zlib 
+fi
+
 make -j4
 
 cd ..

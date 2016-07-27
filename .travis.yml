@@ -22,8 +22,13 @@ addons:
     - zlib1g-dev
     - libbz2-dev
     - liblzma-dev
+    
+branches:
+  only:
+    - master
 
 notifications:
   email:
     recipients:
+    - juraj.somorovsky@hackmanit.de
     - daniel@neus-online.eu

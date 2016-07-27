@@ -1,5 +1,10 @@
 #!/bin/sh
 
+if [ -d tls-testsuite ] 
+then
+    cd tls-testsuite
+fi
+
 botan/botan tls_server TLS-Attacker/resources/rsa1024cert.pem TLS-Attacker/resources/rsa1024key.pem --port=4433 > output/server_output.log 2>&1 &
 botan_pid=$!
 
