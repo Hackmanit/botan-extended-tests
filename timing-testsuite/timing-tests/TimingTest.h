@@ -1,8 +1,6 @@
 /* 
  * File:   TimingTest.h
  * Author: Juraj Somorovsky - juraj.somorovsky@hackmanit.de
- *
- * Created on July 6, 2016, 9:48 AM
  */
 
 #ifndef TIMINGTEST_H
@@ -59,6 +57,24 @@ protected:
 
 public:
     BleichenbacherTest(std::vector<std::string> &inputs, std::string result_file, int keysize);
+};
+
+class MangerTest : public TimingTest { 
+private:
+    const std::string m_encrypt_padding = "Raw";
+    const std::string m_decrypt_padding = "EME1(SHA-256)";
+    const size_t m_ctext_length = 256;
+    RSA_PrivateKey m_privkey;
+    RSA_PublicKey m_pubkey;
+    PK_Encryptor_EME m_enc;
+    PK_Decryptor_EME m_dec;
+    
+protected:
+    std::vector<byte> prepare_input(std::string input);
+    ticks measure_critical_function(std::vector<byte> input);
+
+public:
+    MangerTest(std::vector<std::string> &inputs, std::string result_file, int keysize);
 };
 
 

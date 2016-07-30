@@ -37,6 +37,10 @@ std::vector<std::string> read_dir(const std::string& dir_path) {
     return out;
 }
 
+/*
+ * Reads vectors from a given file 
+ * 
+ */
 std::vector<std::string> read_vectors(const std::string& filename) {
     std::string line;
     std::ifstream infile(filename);
@@ -59,6 +63,11 @@ int main() {
             const std::vector<uint8_t> valid = Botan::hex_decode(inputs.at(0));
             std::string result_folder = "results/bleichenbacher";
             std::unique_ptr<BleichenbacherTest> test(new BleichenbacherTest(inputs, result_folder, 2048));
+            test->execute_evaluation();
+        } else if (file.find("manger") != std::string::npos) {
+            const std::vector<uint8_t> valid = Botan::hex_decode(inputs.at(0));
+            std::string result_folder = "results/manger";
+            std::unique_ptr<MangerTest> test(new MangerTest(inputs, result_folder, 2048));
             test->execute_evaluation();
         } else {
             std::cout << "invalid file name";

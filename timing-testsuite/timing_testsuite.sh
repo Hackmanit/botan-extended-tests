@@ -6,8 +6,12 @@ cd timing-tests
 cd ..
 cd mona-timing-report
 
-for file in ../timing-tests/results/bleichenbacher/*; 
+for dir in ../timing-tests/results/*; 
 do
-    echo "Creating report for: " $file
-    java -jar ReportingTool.jar --inputFile=$file --name=$file --lowerBound=0.4 --upperBound=0.5
+    echo "Working in directory: " $dir
+    for file in $dir/*;
+    do
+        echo "Creating report for: " $file
+        java -jar ReportingTool.jar --inputFile=$file --name=$file --lowerBound=0.4 --upperBound=0.5
+    done
 done

@@ -13,9 +13,8 @@ fi
 cd botan
 git checkout .
 git pull
-    ./configure.py
-    make -j4
-fi
+./configure.py
+make -j4
 
 cd ..
 cd mona-timing-report
