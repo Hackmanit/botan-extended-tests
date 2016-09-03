@@ -10,6 +10,7 @@ script:
 - $CXX --version
 - "tls-testsuite/setup.sh"
 - "tls-testsuite/server_testsuite.sh"
+- "tls-testsuite/server_policytest.sh"
 
 
 addons:

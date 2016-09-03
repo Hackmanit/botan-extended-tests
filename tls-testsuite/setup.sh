@@ -20,6 +20,9 @@ then
     mkdir output
 fi
 
+openssl genpkey -algorithm RSA -out rsa2048key.pem -pkeyopt rsa_keygen_bits:2048 
+openssl req -key rsa2048key.pem -new -x509 -days 365 -out rsa2048cert.pem -subj "/C=DE/ST=NRW/L=Bochum/O=TLS-Attacker/CN=tls-attacker.de"
+
 cd botan
 git checkout .
 git pull
