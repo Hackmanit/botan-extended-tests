@@ -15,11 +15,17 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
+#include <botan/tls_channel.h>
+#include <botan/internal/tls_handshake_state.h>
+#include <botan/internal/tls_messages.h>
+#include <botan/internal/tls_record.h>
+#include <botan/internal/tls_seq_numbers.h>
+#include <botan/internal/rounding.h>
+#include <botan/internal/stl_util.h>
 
 using namespace Botan;
 
 typedef unsigned long long ticks;
-
 
 class TimingTest {
 protected:
@@ -30,8 +36,8 @@ protected:
     unsigned int m_measurement_iterations = 10000;
     virtual std::vector<byte> prepare_input(std::string input) = 0;
     virtual ticks measure_critical_function(std::vector<byte> input) = 0;
-    
-    
+
+
 public:
     TimingTest();
     virtual ~TimingTest();
@@ -40,7 +46,7 @@ public:
     ticks get_ticks();
 };
 
-class BleichenbacherTest : public TimingTest { 
+class BleichenbacherTest : public TimingTest {
 private:
     const std::string m_encrypt_padding = "Raw";
     const std::string m_decrypt_padding = "PKCS1v15";
@@ -50,7 +56,7 @@ private:
     RSA_PublicKey m_pubkey;
     PK_Encryptor_EME m_enc;
     PK_Decryptor_EME m_dec;
-    
+
 protected:
     std::vector<byte> prepare_input(std::string input);
     ticks measure_critical_function(std::vector<byte> input);
@@ -59,7 +65,7 @@ public:
     BleichenbacherTest(std::vector<std::string> &inputs, std::string result_file, int keysize);
 };
 
-class MangerTest : public TimingTest { 
+class MangerTest : public TimingTest {
 private:
     const std::string m_encrypt_padding = "Raw";
     const std::string m_decrypt_padding = "EME1(SHA-256)";
@@ -68,13 +74,25 @@ private:
     RSA_PublicKey m_pubkey;
     PK_Encryptor_EME m_enc;
     PK_Decryptor_EME m_dec;
-    
+
 protected:
     std::vector<byte> prepare_input(std::string input);
     ticks measure_critical_function(std::vector<byte> input);
 
 public:
     MangerTest(std::vector<std::string> &inputs, std::string result_file, int keysize);
+};
+
+class Lucky13Test : public TimingTest {
+private:
+    std::unique_ptr<TLS::Connection_Cipher_State> m_connection_state;
+
+protected:
+    std::vector<byte> prepare_input(std::string input);
+    ticks measure_critical_function(std::vector<byte> input);
+
+public:
+    Lucky13Test(std::vector<std::string> &inputs, std::string result_file);
 };
 
 

@@ -60,15 +60,21 @@ int main() {
         std::vector<std::string> inputs = read_vectors(file);
 
         if (file.find("bleichenbacher") != std::string::npos) {
-            const std::vector<uint8_t> valid = Botan::hex_decode(inputs.at(0));
-            std::string result_folder = "results/bleichenbacher";
-            std::unique_ptr<BleichenbacherTest> test(new BleichenbacherTest(inputs, result_folder, 2048));
-            test->execute_evaluation();
+            //            const std::vector<uint8_t> valid = Botan::hex_decode(inputs.at(0));
+            //            std::string result_folder = "results/bleichenbacher";
+            //            std::unique_ptr<BleichenbacherTest> test(new BleichenbacherTest(inputs, result_folder, 2048));
+            //            test->execute_evaluation();
         } else if (file.find("manger") != std::string::npos) {
+            //            const std::vector<uint8_t> valid = Botan::hex_decode(inputs.at(0));
+            //            std::string result_folder = "results/manger";
+            //            std::unique_ptr<MangerTest> test(new MangerTest(inputs, result_folder, 2048));
+            //            test->execute_evaluation();
+        } else if (file.find("lucky13") != std::string::npos) {
             const std::vector<uint8_t> valid = Botan::hex_decode(inputs.at(0));
-            std::string result_folder = "results/manger";
-            std::unique_ptr<MangerTest> test(new MangerTest(inputs, result_folder, 2048));
+            std::string result_folder = "results/lucky13";
+            std::unique_ptr<Lucky13Test> test(new Lucky13Test(inputs, result_folder));
             test->execute_evaluation();
+
         } else {
             std::cout << "invalid file name";
         }
