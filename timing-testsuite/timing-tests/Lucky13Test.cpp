@@ -35,8 +35,8 @@ ticks Lucky13Test::measure_critical_function(std::vector<byte> input) {
     // RSA_WITH_AES_256_CBC_SHA
     TLS::Ciphersuite cs = TLS::Ciphersuite::by_id(0x0035);
     TLS::Session_Keys sk;
-//    TLS::Connection_Cipher_State state(TLS::Protocol_Version::TLS_V12, TLS::Connection_Side::SERVER, true, cs, sk, false);
-    TLS::Connection_Cipher_State state;
+    TLS::Connection_Cipher_State state(TLS::Protocol_Version::TLS_V12, TLS::Connection_Side::SERVER, true, cs, sk, false);
+//    TLS::Connection_Cipher_State state;
 
 
 //        TLS::Record_Raw_Input raw_input(input, 10, consumed, false);
