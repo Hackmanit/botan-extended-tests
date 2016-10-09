@@ -2,10 +2,10 @@
  * File:   TimingTest.cpp
  * Author: Juraj Somorovsky - juraj.somorovsky@hackmanit.de
  * 
- * Created on July 9, 2016, 9:54 PM
  */
 
 #include "TimingTest.h"
+#include <time.h>
 
 TimingTest::TimingTest() {
 }
@@ -32,7 +32,9 @@ void TimingTest::execute_evaluation() {
                     m_results[ (k - m_warmup_iterations) * 2 + 1] = t2;
                 }
             }
-            store_results_in_file("test" + std::to_string(i) + std::to_string(j));
+            clock_t t;
+            t = clock();
+            store_results_in_file(std::to_string(t) + "test" + std::to_string(i) + std::to_string(j));
         }
     }
 

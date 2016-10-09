@@ -1,3 +1,9 @@
+/* 
+ * File:   main.cpp
+ * Author: Juraj Somorovsky - juraj.somorovsky@hackmanit.de
+ * 
+ */
+
 #include <botan/pubkey.h>
 #include <botan/rsa.h>
 #include <botan/system_rng.h>
@@ -60,21 +66,20 @@ int main() {
         std::vector<std::string> inputs = read_vectors(file);
 
         if (file.find("bleichenbacher") != std::string::npos) {
-            //            const std::vector<uint8_t> valid = Botan::hex_decode(inputs.at(0));
-            //            std::string result_folder = "results/bleichenbacher";
-            //            std::unique_ptr<BleichenbacherTest> test(new BleichenbacherTest(inputs, result_folder, 2048));
-            //            test->execute_evaluation();
-        } else if (file.find("manger") != std::string::npos) {
-            //            const std::vector<uint8_t> valid = Botan::hex_decode(inputs.at(0));
-            //            std::string result_folder = "results/manger";
-            //            std::unique_ptr<MangerTest> test(new MangerTest(inputs, result_folder, 2048));
-            //            test->execute_evaluation();
-        } else if (file.find("lucky13") != std::string::npos) {
-            const std::vector<uint8_t> valid = Botan::hex_decode(inputs.at(0));
-            std::string result_folder = "results/lucky13";
-            std::unique_ptr<Lucky13Test> test(new Lucky13Test(inputs, result_folder));
+            std::string result_folder = "results/bleichenbacher";
+            std::unique_ptr<BleichenbacherTest> test(new BleichenbacherTest(inputs, result_folder, 2048));
             test->execute_evaluation();
-
+        } else if (file.find("manger") != std::string::npos) {
+            std::string result_folder = "results/manger";
+            std::unique_ptr<MangerTest> test(new MangerTest(inputs, result_folder, 2048));
+            test->execute_evaluation();
+        } else if (file.find("lucky13") != std::string::npos) {
+            std::string result_folder_sha1 = "results/lucky13sha1";
+            std::unique_ptr<Lucky13Test> test_sha1(new Lucky13Test(inputs, result_folder_sha1, "SHA-1", 20));
+            test_sha1->execute_evaluation();
+            std::string result_folder_sha256 = "results/lucky13sha256";
+            std::unique_ptr<Lucky13Test> test_sha256(new Lucky13Test(inputs, result_folder_sha256, "SHA-256", 32));
+            test_sha256->execute_evaluation();
         } else {
             std::cout << "invalid file name";
         }

@@ -1,6 +1,7 @@
 /* 
  * File:   TimingTest.h
  * Author: Juraj Somorovsky - juraj.somorovsky@hackmanit.de
+ * 
  */
 
 #ifndef TIMINGTEST_H
@@ -15,13 +16,9 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <botan/tls_channel.h>
-#include <botan/internal/tls_handshake_state.h>
-#include <botan/internal/tls_messages.h>
-#include <botan/internal/tls_record.h>
-#include <botan/internal/tls_seq_numbers.h>
-#include <botan/internal/rounding.h>
-#include <botan/internal/stl_util.h>
+#include <botan/internal/tls_cbc.h>
+#include <botan/tls_exceptn.h>
+#include <botan/cipher_mode.h>
 
 using namespace Botan;
 
@@ -58,8 +55,8 @@ private:
     PK_Decryptor_EME m_dec;
 
 protected:
-    std::vector<byte> prepare_input(std::string input);
-    ticks measure_critical_function(std::vector<byte> input);
+    std::vector<byte> prepare_input(std::string input) override;
+    ticks measure_critical_function(std::vector<byte> input) override;
 
 public:
     BleichenbacherTest(std::vector<std::string> &inputs, std::string result_file, int keysize);
@@ -76,8 +73,8 @@ private:
     PK_Decryptor_EME m_dec;
 
 protected:
-    std::vector<byte> prepare_input(std::string input);
-    ticks measure_critical_function(std::vector<byte> input);
+    std::vector<byte> prepare_input(std::string input) override;
+    ticks measure_critical_function(std::vector<byte> input) override;
 
 public:
     MangerTest(std::vector<std::string> &inputs, std::string result_file, int keysize);
@@ -85,14 +82,17 @@ public:
 
 class Lucky13Test : public TimingTest {
 private:
-    std::unique_ptr<TLS::Connection_Cipher_State> m_connection_state;
+    const std::string m_mac_algo;
+    const size_t m_mac_keylen;
+    Botan::TLS::TLS_CBC_HMAC_AEAD_Decryption m_dec;
 
 protected:
-    std::vector<byte> prepare_input(std::string input);
-    ticks measure_critical_function(std::vector<byte> input);
+    std::vector<byte> prepare_input(std::string input) override;
+    ticks measure_critical_function(std::vector<byte> input) override;
 
 public:
-    Lucky13Test(std::vector<std::string> &inputs, std::string result_file);
+    Lucky13Test(std::vector<std::string> &inputs, std::string result_file, 
+            const std::string& mac_name, size_t mac_keylen);
 };
 
 
