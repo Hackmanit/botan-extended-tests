@@ -2,7 +2,6 @@
  * File:   BleichenbacherTest.cpp
  * Author: Juraj Somorovsky - juraj.somorovsky@hackmanit.de
  * 
- * Created on July 9, 2016, 9:54 PM
  */
 
 #include "TimingTest.h"

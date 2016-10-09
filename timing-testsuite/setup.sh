@@ -13,6 +13,7 @@ fi
 cd botan
 git checkout .
 git pull
+patch src/lib/tls/tls_cbc.h ../misc/tls_cbc.patch
 ./configure.py
 make -j4
 

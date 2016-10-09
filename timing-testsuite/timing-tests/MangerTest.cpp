@@ -1,15 +1,16 @@
 /* 
  * File:   MangerTest.cpp
  * Author: Juraj Somorovsky - juraj.somorovsky@hackmanit.de
+ * 
  */
 
 #include "TimingTest.h"
 
 MangerTest::MangerTest(std::vector<std::string> &inputs, std::string result_folder, int keysize) :
-m_privkey(system_rng(), keysize),
-m_pubkey(m_privkey),
-m_enc(m_pubkey, m_encrypt_padding),
-m_dec(m_privkey, m_decrypt_padding) {
+        m_privkey(system_rng(), keysize),
+        m_pubkey(m_privkey),
+        m_enc(m_pubkey, m_encrypt_padding),
+        m_dec(m_privkey, m_decrypt_padding) {
     m_inputs = inputs;
     m_result_folder = result_folder;
 }
