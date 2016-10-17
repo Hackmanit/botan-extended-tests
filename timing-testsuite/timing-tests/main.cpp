@@ -59,29 +59,50 @@ std::vector<std::string> read_vectors(const std::string& filename) {
     return out;
 }
 
-int main() {
+bool executeEvaluationWithFile(std::string test, std::string filename, std::string arg) {
+    if ((arg == "" || test.find(arg) != std::string::npos) &&
+            (filename.find(test) != std::string::npos)) {
+        return true;
+    }
+    return false;
+}
+
+int main(int argc, char* argv[]) {
 
     std::vector<std::string> files = read_dir("data");
+    std::string test_arg;
+    if(argc < 2) {
+        test_arg = "";
+    } else {
+        test_arg = argv[1];
+    }
     for (auto const& file : files) {
         std::vector<std::string> inputs = read_vectors(file);
 
-        if (file.find("bleichenbacher") != std::string::npos) {
+        if (executeEvaluationWithFile("bleichenbacher", file, test_arg)) {
             std::string result_folder = "results/bleichenbacher";
             std::unique_ptr<BleichenbacherTest> test(new BleichenbacherTest(inputs, result_folder, 2048));
             test->execute_evaluation();
-        } else if (file.find("manger") != std::string::npos) {
+        } else if (executeEvaluationWithFile("manger", file, test_arg)) {
             std::string result_folder = "results/manger";
             std::unique_ptr<MangerTest> test(new MangerTest(inputs, result_folder, 2048));
             test->execute_evaluation();
-        } else if (file.find("lucky13") != std::string::npos) {
-            std::string result_folder_sha1 = "results/lucky13sha1";
+        } else if (executeEvaluationWithFile("lucky13sec3", file, test_arg)) {
+            std::string result_folder_sha1 = "results/lucky13sha1sec3";
             std::unique_ptr<Lucky13Test> test_sha1(new Lucky13Test(inputs, result_folder_sha1, "SHA-1", 20));
             test_sha1->execute_evaluation();
-            std::string result_folder_sha256 = "results/lucky13sha256";
+            std::string result_folder_sha256 = "results/lucky13sha256sec3";
+            std::unique_ptr<Lucky13Test> test_sha256(new Lucky13Test(inputs, result_folder_sha256, "SHA-256", 32));
+            test_sha256->execute_evaluation();
+        } else if (executeEvaluationWithFile("lucky13sec4", file, test_arg)) {
+            std::string result_folder_sha1 = "results/lucky13sha1sec4";
+            std::unique_ptr<Lucky13Test> test_sha1(new Lucky13Test(inputs, result_folder_sha1, "SHA-1", 20));
+            test_sha1->execute_evaluation();
+            std::string result_folder_sha256 = "results/lucky13sha256sec4";
             std::unique_ptr<Lucky13Test> test_sha256(new Lucky13Test(inputs, result_folder_sha256, "SHA-256", 32));
             test_sha256->execute_evaluation();
         } else {
-            std::cout << "invalid file name";
+            std::cout << "\nSkipping the following test: " << file;
         }
     }
 

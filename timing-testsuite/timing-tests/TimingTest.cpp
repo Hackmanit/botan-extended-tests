@@ -18,7 +18,7 @@ void TimingTest::execute_evaluation() {
 
     for (int i = 0; i < m_inputs.size() - 1; i++) {
         for (int j = i + 1; j < m_inputs.size(); j++) {
-            std::cout << "Executing measurements for inputs " << i << " and " << j << "\n";
+            std::cout << "\nExecuting measurements for inputs " << i << " and " << j;
             std::vector<byte> input1 = prepare_input(m_inputs[i]);
             std::vector<byte> input2 = prepare_input(m_inputs[j]);
 
