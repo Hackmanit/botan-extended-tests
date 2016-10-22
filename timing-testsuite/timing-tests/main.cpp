@@ -101,6 +101,10 @@ int main(int argc, char* argv[]) {
             std::string result_folder_sha256 = "results/lucky13sha256sec4";
             std::unique_ptr<Lucky13Test> test_sha256(new Lucky13Test(inputs, result_folder_sha256, "SHA-256", 32));
             test_sha256->execute_evaluation();
+        } else if (executeEvaluationWithFile("lucky13sha384", file, test_arg)) {
+            std::string result_folder_sha384 = "results/lucky13sha384";
+            std::unique_ptr<Lucky13Test> test_sha384(new Lucky13Test(inputs, result_folder_sha384, "SHA-384", 48));
+            test_sha384->execute_evaluation();
         } else {
             std::cout << "\nSkipping the following test: " << file;
         }
