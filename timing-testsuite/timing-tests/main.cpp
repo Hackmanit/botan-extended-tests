@@ -94,10 +94,11 @@ int main(int argc, char* argv[]) {
             std::string result_folder_sha256 = "results/lucky13sha256sec3";
             std::unique_ptr<Lucky13Test> test_sha256(new Lucky13Test(inputs, result_folder_sha256, "SHA-256", 32));
             test_sha256->execute_evaluation();
-        } else if (executeEvaluationWithFile("lucky13sec4", file, test_arg)) {
+        } else if (executeEvaluationWithFile("lucky13sec4sha1", file, test_arg)) {
             std::string result_folder_sha1 = "results/lucky13sha1sec4";
             std::unique_ptr<Lucky13Test> test_sha1(new Lucky13Test(inputs, result_folder_sha1, "SHA-1", 20));
             test_sha1->execute_evaluation();
+        } else if (executeEvaluationWithFile("lucky13sec4sha256", file, test_arg)) {
             std::string result_folder_sha256 = "results/lucky13sha256sec4";
             std::unique_ptr<Lucky13Test> test_sha256(new Lucky13Test(inputs, result_folder_sha256, "SHA-256", 32));
             test_sha256->execute_evaluation();
